@@ -1,6 +1,7 @@
 // Scene and Camera setup
 var scene = new THREE.Scene();
 var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+camera.position.z = 5;
 
 // Renderer setup
 var renderer = new THREE.WebGLRenderer({antialias: true}); // TODO: test this
@@ -13,14 +14,31 @@ window.addEventListener('resize', () => {
   renderer.setSize(window.innerWidth, window.innerHeight);
   camera.aspect = window.innerWidth / window.innerHeight;
 
-  camera.updateProjectMatrix();
+  camera.updateProjectionMatrix();
 });
 
-// To show render clear color
-renderer.render(scene, camera);
+// Adding geometry
+var geometry = new THREE.BoxGeometry(1, 1, 1);
+var material = new THREE.MeshLambertMaterial({color: 0x999999});
+var mesh = new THREE.Mesh(geometry, material);
 
+mesh.position.x = 2;
 
+scene.add(mesh);
 
+// Adding light
+var light = new THREE.PointLight(0xffffff, 1, 500);
+light.position.set(10,0,25);
+scene.add(light);
+
+/**
+ * This will create a loop that causes the renderer to draw the scene every time the screen is refreshed (on a typical screen this means 60 times per second). If you're new to writing games in the browser, you might say "why don't we just create a setInterval ?" The thing is - we could, but requestAnimationFrame has a number of advantages.
+ */
+function animate() {
+	requestAnimationFrame(animate);
+	renderer.render(scene, camera);
+}
+animate();
 
 
 
