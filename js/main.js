@@ -1,7 +1,8 @@
 // Scene and Camera setup
 var scene = new THREE.Scene();
 var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-camera.position.z = 5;
+camera.position.set(0, 10, 0);
+camera.lookAt(scene.position);
 
 // Renderer setup
 var renderer = new THREE.WebGLRenderer({antialias: true}); // TODO: test this
@@ -14,8 +15,27 @@ window.addEventListener('resize', () => {
   renderer.setSize(window.innerWidth, window.innerHeight);
   camera.aspect = window.innerWidth / window.innerHeight;
 
+  /**
+   * Updates the camera projection matrix. Must be called after any change of parameters.
+   */
   camera.updateProjectionMatrix();
 });
+
+/**
+ * Helpers START
+ */
+
+// axes helper
+var axesHelper = new THREE.AxesHelper(1);
+scene.add(axesHelper);
+
+// grid helper
+var gridHelper = new THREE.GridHelper(10, 20);
+scene.add(gridHelper);
+
+/**
+ * Helpers END
+ */
 
 // Adding raycaster
 /**
@@ -36,18 +56,13 @@ var light = new THREE.PointLight(0xffffff, 1, 500);
 light.position.set(10,0,25);
 scene.add(light);
 
-// Adding axes helper
-var axesHelper = new THREE.AxesHelper(1);
-scene.add(axesHelper);
-
 /**
  * This will create a loop that causes the renderer to draw the scene every time the screen is refreshed (on a typical screen this means 60 times per second). If you're new to writing games in the browser, you might say "why don't we just create a setInterval ?" The thing is - we could, but requestAnimationFrame has a number of advantages.
  */
 function animate() {
   requestAnimationFrame(animate);
-  
-  // mesh.rotation.x += 0.01;
-  // mesh.rotation.y += 0.01;
+
+  // document.addEventListener('keydown', keyDownEvent);
 
 	renderer.render(scene, camera);
 }
@@ -76,6 +91,27 @@ function animate() {
 // }
 
 animate();
+
+// function keyDownEvent(e) {
+//   switch (e.keyCode) {
+//     case 37:
+//       nextX = -1;
+//       nextY = 0;
+//       break;
+//     case 38:
+//       nextX = 0;
+//       nextY = -1;
+//       break;
+//     case 39:
+//       nextX = 1;
+//       nextY = 0;
+//       break;
+//     case 40:
+//       nextX = 0;
+//       nextY = 1;
+//       break;
+//   }
+// }
 
 // window.addEventListener('mousemove', onMouseMove);
 
