@@ -50,15 +50,31 @@ var nextX = nextZ = 0;
 
 
 // Snake setup
-var snakeGeometry = new THREE.BoxGeometry(1, 1, 1);
-var snakeMaterial = new THREE.MeshLambertMaterial({color: 0x999999});
-var snake = new THREE.Mesh(snakeGeometry, snakeMaterial);
-// var defaultTailSize = 3;
-// var tailSize = defaultTailSize;
-// var snakeTrail = [];
-snake.position.set(-0.5, 0.5, -0.5);
-scene.add(snake);
+var defaultTailSize = 3;
+var tailSize = defaultTailSize;
+// Creating group to control snake tail size
+var snake = new THREE.Group();
 
+var snakeBlockGeometry = new THREE.BoxGeometry(1, 1, 1);
+var snakeBlockMaterial = new THREE.MeshLambertMaterial({color: 0x999999});
+// snake head initial position
+var initialX = -0.5;
+var initialY = 0.5;
+var initialZ = -0.5;
+
+// Initial snake length setup
+for(var i = 0; i < defaultTailSize; i++) {
+  let snakeBlock = new THREE.Mesh(snakeBlockGeometry, snakeBlockMaterial);
+  snakeBlock.position.set(
+    initialX - i,
+    initialY,
+    initialZ
+  );
+ 
+  snake.add(snakeBlock);
+}
+
+scene.add(snake);
 
 // Food setup
 // var foodX = (foodY = 15); // TODO: var appleX = (appleY = 15)
