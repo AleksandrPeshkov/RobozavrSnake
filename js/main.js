@@ -53,28 +53,28 @@ var nextX = nextZ = 0;
 var defaultTailSize = 3;
 var tailSize = defaultTailSize;
 // Creating group to control snake tail size
-var snake = new THREE.Group();
+var snakeTrail = [];
 
 var snakeBlockGeometry = new THREE.BoxGeometry(1, 1, 1);
 var snakeBlockMaterial = new THREE.MeshLambertMaterial({color: 0x999999});
 // snake head initial position
-var initialX = -0.5;
-var initialY = 0.5;
-var initialZ = -0.5;
+var snakeX = -0.5;
+var snakeY = 0.5;
+var snakeZ = -0.5;
 
 // Initial snake length setup
 for(var i = 0; i < defaultTailSize; i++) {
   let snakeBlock = new THREE.Mesh(snakeBlockGeometry, snakeBlockMaterial);
   snakeBlock.position.set(
-    initialX - i,
-    initialY,
-    initialZ
+    snakeX - i,
+    snakeY,
+    snakeZ
   );
  
-  snake.add(snakeBlock);
+  snakeTrail.push(snakeBlock);
+  scene.add(snakeBlock);
 }
 
-scene.add(snake);
 
 // Food setup
 // var foodX = (foodY = 15); // TODO: var appleX = (appleY = 15)
@@ -130,8 +130,15 @@ function keyDownEvent(e) {
 // Updating the game world
 function draw() {
   // move snake in next position
-  snake.position.x += nextX;
-  snake.position.z += nextZ;
+  snakeX += nextX;
+  snakeZ +=nextZ;
+
+  let snakeBlock = new THREE.Mesh(snakeBlockGeometry, snakeBlockMaterial);
+  snakeBlock.position.set(
+    snakeX,
+    snakeY,
+    snakeZ
+  );
 
   // // snake over game world?
   // if (snakeX < 0) {
@@ -169,10 +176,12 @@ function draw() {
   //   }
   // }
 
-  // // set snake trail
-  // snakeTrail.push({ x: snakeX, y: snakeY });
-
-  // while (snakeTrail.length > tailSize) {
-  //   snakeTrail.shift();
-  // }
+  // Set snake trail
+  scene.add(snakeBlock);
+  snakeTrail.unshift(snakeBlock);
+  
+  while (snakeTrail.length > tailSize) {
+    scene.remove(snakeTrail[snakeTrail.length - 1]);
+    snakeTrail.pop();
+  }
 }
