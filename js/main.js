@@ -1,7 +1,7 @@
 // Scene and Camera setup
 var scene = new THREE.Scene();
 var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-camera.position.set(0, 20, 0);
+camera.position.set(0, 10, 15);
 camera.lookAt(scene.position);
 
 // Renderer setup
@@ -75,20 +75,23 @@ var food = new THREE.Mesh(foodGeometry, foodMaterial);
 food.position.set(5.5, 0.5 , 5.5)
 scene.add(food);
 
+
 /**
  * This will create a loop that causes the renderer to draw the scene every time the screen is refreshed (on a typical screen this means 60 times per second). If you're new to writing games in the browser, you might say "why don't we just create a setInterval ?" The thing is - we could, but requestAnimationFrame has a number of advantages.
  */
 function animate() {
   requestAnimationFrame(animate);
-
-  // document.addEventListener('keydown', keyDownEvent);
+  
+  draw();
 
 	renderer.render(scene, camera);
 }
 
 animate();
 
+document.addEventListener('keydown', keyDownEvent);
 
+// Input setup
 function keyDownEvent(e) {
   switch (e.keyCode) {
     case 37:
@@ -110,66 +113,53 @@ function keyDownEvent(e) {
   }
 }
 
-/**
- * Snake 2D logic here ▼
- */
 
+// Updating the game world
+function draw() {
+  // move snake in next position
+  snake.position.x += nextX;
+  snake.position.z += nextZ;
 
-// // updating the game world
-// function draw() {
-//   // move snake in next pos
-//   snakeX += nextX;
-//   snakeY += nextY;
+  // // snake over game world?
+  // if (snakeX < 0) {
+  //   snakeX = gridSize - 1;
+  // }
+  // if (snakeX > gridSize - 1) {
+  //   snakeX = 0;
+  // }
+  // if (snakeY < 0) {
+  //   snakeY = gridSize - 1;
+  // }
+  // if (snakeY > gridSize - 1) {
+  //   snakeY = 0;
+  // }
 
-//   // snake over game world?
-//   if (snakeX < 0) {
-//     snakeX = gridSize - 1;
-//   }
-//   if (snakeX > gridSize - 1) {
-//     snakeX = 0;
-//   }
-//   if (snakeY < 0) {
-//     snakeY = gridSize - 1;
-//   }
-//   if (snakeY > gridSize - 1) {
-//     snakeY = 0;
-//   }
+  // // snake bite food?
+  // if (snakeX == foodX && snakeY == foodY) {
+  //   tailSize++;
+  //   foodX = Math.floor(Math.random() * gridSize);
+  //   foodY = Math.floor(Math.random() * gridSize);
+  // }
 
-//   // snake bite food?
-//   if (snakeX == foodX && snakeY == foodY) {
-//     tailSize++;
-//     foodX = Math.floor(Math.random() * gridSize);
-//     foodY = Math.floor(Math.random() * gridSize);
-//   }
+  // // paint snake
+  //  for (var i = 0; i < snakeTrail.length; i++) {
+  //   ctx.fillRect(
+  //     snakeTrail[i].x * tileSize,
+  //     snakeTrail[i].y * tileSize,
+  //     tileSize,
+  //     tileSize
+  //   );
 
-//   // paint background
-//   ctx.fillStyle = "#333333";
-//   ctx.fillRect(0, 0, canvas.width, canvas.height);
+  //   // snake bites it's tail?
+  //   if (snakeTrail[i].x == snakeX && snakeTrail[i].y == snakeY) {
+  //     tailSize = defaultTailSize;
+  //   }
+  // }
 
-//   // paint snake
-//   ctx.fillStyle = "green";
-//   for (var i = 0; i < snakeTrail.length; i++) {
-//     ctx.fillRect(
-//       snakeTrail[i].x * tileSize,
-//       snakeTrail[i].y * tileSize,
-//       tileSize,
-//       tileSize
-//     );
+  // // set snake trail
+  // snakeTrail.push({ x: snakeX, y: snakeY });
 
-//     // snake bites it's tail?
-//     if (snakeTrail[i].x == snakeX && snakeTrail[i].y == snakeY) {
-//       tailSize = defaultTailSize;
-//     }
-//   }
-
-//   // paint food
-//   ctx.fillStyle = "red";
-//   ctx.fillRect(foodX * tileSize, foodY * tileSize, tileSize, tileSize);
-
-//   // set snake trail
-//   snakeTrail.push({ x: snakeX, y: snakeY });
-
-//   while (snakeTrail.length > tailSize) {
-//     snakeTrail.shift();
-//   }
-// }
+  // while (snakeTrail.length > tailSize) {
+  //   snakeTrail.shift();
+  // }
+}
