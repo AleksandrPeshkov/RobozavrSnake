@@ -21,9 +21,6 @@ window.addEventListener('resize', () => {
   camera.updateProjectionMatrix();
 });
 
-/**
- * Helpers START
- */
 
 // axes helper
 var axesHelper = new THREE.AxesHelper(2);
@@ -32,10 +29,6 @@ scene.add(axesHelper);
 // grid helper
 var gridHelper = new THREE.GridHelper(20, 20);
 scene.add(gridHelper);
-
-/**
- * Helpers END
- */
 
 
 // Adding raycaster
@@ -79,11 +72,15 @@ scene.add(food);
 /**
  * This will create a loop that causes the renderer to draw the scene every time the screen is refreshed (on a typical screen this means 60 times per second). If you're new to writing games in the browser, you might say "why don't we just create a setInterval ?" The thing is - we could, but requestAnimationFrame has a number of advantages.
  */
-function animate() {
-  requestAnimationFrame(animate);
-  
-  draw();
+var framesPerSecond = 8;
 
+function animate() {
+
+  setTimeout(function(){
+    requestAnimationFrame(animate);
+    draw();
+  }, 1000 / framesPerSecond);
+  
 	renderer.render(scene, camera);
 }
 
