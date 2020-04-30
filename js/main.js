@@ -74,7 +74,7 @@ for(var i = 0; i < defaultTailSize; i++) {
 var foodGeometry = new THREE.SphereGeometry(.5, 10, 10);
 var foodMaterial = new THREE.MeshLambertMaterial({color: 0xff0000});
 var food = new THREE.Mesh(foodGeometry, foodMaterial);
-food.position.set(5.5, 0.5 , 5.5)
+food.position.set(5.5, 0.5, 5.5);
 scene.add(food);
 
 /**
@@ -123,7 +123,7 @@ function draw() {
   snakeX += nextX;
   snakeZ +=nextZ;
 
-  // snake over game world?
+  // Snake over game world?
   if (snakeX < -9.5) {
     snakeX = gridSize - 10.5;
   }
@@ -137,21 +137,12 @@ function draw() {
     snakeZ = -9.5;
   }
 
-  // // snake bite food?
-  // if (snakeX == foodX && snakeY == foodY) {
-  //   tailSize++;
-  //   foodX = Math.floor(Math.random() * gridSize);
-  //   foodY = Math.floor(Math.random() * gridSize);
-  // }
-
-  // // paint snake
-  //  for (var i = 0; i < snakeTrail.length; i++) {
-  //   ctx.fillRect(
-  //     snakeTrail[i].x * tileSize,
-  //     snakeTrail[i].y * tileSize,
-  //     tileSize,
-  //     tileSize
-  //   );
+  // Snake bite food?
+  if (snakeX == food.position.x && snakeZ == food.position.z) {
+    tailSize++;
+    food.position.x = Math.floor(Math.random() * gridSize);
+    food.position.z = Math.floor(Math.random() * gridSize);
+  }
 
   //   // snake bites it's tail?
   //   if (snakeTrail[i].x == snakeX && snakeTrail[i].y == snakeY) {
@@ -159,6 +150,7 @@ function draw() {
   //   }
   // }
 
+  // Add snake next position and set snake trail
   let snakeBlock = new THREE.Mesh(snakeBlockGeometry, snakeBlockMaterial);
   snakeBlock.position.set(
     snakeX,
@@ -166,7 +158,6 @@ function draw() {
     snakeZ
   );
 
-  // Set snake trail
   scene.add(snakeBlock);
   snakeTrail.unshift(snakeBlock);
   
