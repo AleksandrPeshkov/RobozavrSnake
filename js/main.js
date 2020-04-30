@@ -149,11 +149,12 @@ function draw() {
    * TODO: не гененировать еду на месте хвоста змеии
    */
 
-  //   // snake bites it's tail?
-  //   if (snakeTrail[i].x == snakeX && snakeTrail[i].y == snakeY) {
-  //     tailSize = defaultTailSize;
-  //   }
-  // }
+  // snake bites it's tail?
+  for(var i = 0; i < snakeTrail.length; i++) {
+    if (snakeTrail[i].position.x == snakeX && snakeTrail[i].position.z == snakeZ) {
+      tailSize = defaultTailSize;
+    }
+  }
 
   // Add snake next position and set snake trail
   let snakeBlock = new THREE.Mesh(snakeBlockGeometry, snakeBlockMaterial);
