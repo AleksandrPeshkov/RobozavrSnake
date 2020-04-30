@@ -21,7 +21,6 @@ window.addEventListener('resize', () => {
   camera.updateProjectionMatrix();
 });
 
-
 // axes helper
 var axesHelper = new THREE.AxesHelper(2);
 scene.add(axesHelper);
@@ -30,7 +29,6 @@ scene.add(axesHelper);
 var gridHelper = new THREE.GridHelper(20, 20);
 scene.add(gridHelper);
 
-
 // Adding raycaster
 /**
  * Raycasting is used for mouse picking (working out what objects in the 3d space the mouse is over) amongst other things.
@@ -38,21 +36,18 @@ scene.add(gridHelper);
 // var raycaster = new THREE.Raycaster();
 // var mouse = new THREE.Vector2();
 
-
 // Adding light
 var light = new THREE.PointLight(0xffffff, 1, 500);
 light.position.set(10,0,25);
 scene.add(light);
 
 // World setup
-// var gridSize = (tileSize = 20);
+var gridSize = 20;
 var nextX = nextZ = 0;
-
 
 // Snake setup
 var defaultTailSize = 3;
 var tailSize = defaultTailSize;
-// Creating group to control snake tail size
 var snakeTrail = [];
 
 var snakeBlockGeometry = new THREE.BoxGeometry(1, 1, 1);
@@ -75,23 +70,19 @@ for(var i = 0; i < defaultTailSize; i++) {
   scene.add(snakeBlock);
 }
 
-
 // Food setup
-// var foodX = (foodY = 15); // TODO: var appleX = (appleY = 15)
 var foodGeometry = new THREE.SphereGeometry(.5, 10, 10);
 var foodMaterial = new THREE.MeshLambertMaterial({color: 0xff0000});
 var food = new THREE.Mesh(foodGeometry, foodMaterial);
 food.position.set(5.5, 0.5 , 5.5)
 scene.add(food);
 
-
 /**
  * This will create a loop that causes the renderer to draw the scene every time the screen is refreshed (on a typical screen this means 60 times per second). If you're new to writing games in the browser, you might say "why don't we just create a setInterval ?" The thing is - we could, but requestAnimationFrame has a number of advantages.
  */
-var framesPerSecond = 8;
+var framesPerSecond = 7;
 
 function animate() {
-
   setTimeout(function(){
     requestAnimationFrame(animate);
     draw();
@@ -126,33 +117,25 @@ function keyDownEvent(e) {
   }
 }
 
-
 // Updating the game world
 function draw() {
   // move snake in next position
   snakeX += nextX;
   snakeZ +=nextZ;
 
-  let snakeBlock = new THREE.Mesh(snakeBlockGeometry, snakeBlockMaterial);
-  snakeBlock.position.set(
-    snakeX,
-    snakeY,
-    snakeZ
-  );
-
-  // // snake over game world?
-  // if (snakeX < 0) {
-  //   snakeX = gridSize - 1;
-  // }
-  // if (snakeX > gridSize - 1) {
-  //   snakeX = 0;
-  // }
-  // if (snakeY < 0) {
-  //   snakeY = gridSize - 1;
-  // }
-  // if (snakeY > gridSize - 1) {
-  //   snakeY = 0;
-  // }
+  // snake over game world?
+  if (snakeX < -9.5) {
+    snakeX = gridSize - 10.5;
+  }
+  if (snakeX > gridSize - 10.5) {
+    snakeX = -9.5;
+  }
+  if (snakeZ < -9.5) {
+    snakeZ = gridSize - 10.5;
+  }
+  if (snakeZ > gridSize - 10.5) {
+    snakeZ = -9.5;
+  }
 
   // // snake bite food?
   // if (snakeX == foodX && snakeY == foodY) {
@@ -175,6 +158,13 @@ function draw() {
   //     tailSize = defaultTailSize;
   //   }
   // }
+
+  let snakeBlock = new THREE.Mesh(snakeBlockGeometry, snakeBlockMaterial);
+  snakeBlock.position.set(
+    snakeX,
+    snakeY,
+    snakeZ
+  );
 
   // Set snake trail
   scene.add(snakeBlock);
