@@ -5,7 +5,7 @@ camera.position.set(0, 10, 15);
 camera.lookAt(scene.position);
 
 // Renderer setup
-var renderer = new THREE.WebGLRenderer({antialias: true}); // TODO: test this
+var renderer = new THREE.WebGLRenderer({antialias: true});
 renderer.setClearColor('#e5e5e5');
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
@@ -140,9 +140,14 @@ function draw() {
   // Snake bite food?
   if (snakeX == food.position.x && snakeZ == food.position.z) {
     tailSize++;
-    food.position.x = Math.floor(Math.random() * gridSize);
-    food.position.z = Math.floor(Math.random() * gridSize);
+    let plusOrMinus = Math.random() < 0.5 ? -1 : 1;
+    food.position.x = plusOrMinus * (Math.floor(Math.random() * gridSize / 2) - 0.5);
+    food.position.z = plusOrMinus * (Math.floor(Math.random() * gridSize / 2) - 0.5);
   }
+
+  /**
+   * TODO: не гененировать еду на месте хвоста змеии
+   */
 
   //   // snake bites it's tail?
   //   if (snakeTrail[i].x == snakeX && snakeTrail[i].y == snakeY) {
