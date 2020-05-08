@@ -86,6 +86,7 @@ function animate() {
   setTimeout(function(){
     requestAnimationFrame(animate);
     draw();
+    food.rotation.y += 0.5;
   }, 1000 / framesPerSecond);
   
 	renderer.render(scene, camera);
