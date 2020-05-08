@@ -51,7 +51,7 @@ var tailSize = defaultTailSize;
 var snakeTrail = [];
 
 var snakeBlockGeometry = new THREE.BoxGeometry(1, 1, 1);
-var snakeBlockMaterial = new THREE.MeshLambertMaterial({color: 0x999999});
+var snakeBlockMaterial = new THREE.MeshLambertMaterial({color: 0x16817a});
 // snake head initial position
 var snakeX = -0.5;
 var snakeY = 0.5;
