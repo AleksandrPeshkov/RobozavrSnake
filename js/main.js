@@ -38,7 +38,7 @@ scene.add(gridHelper);
 
 // Adding light
 var light = new THREE.PointLight(0xffffff, 1, 500);
-light.position.set(10,0,25);
+light.position.set(0,10,10);
 scene.add(light);
 
 // World setup
@@ -71,8 +71,8 @@ for(var i = 0; i < defaultTailSize; i++) {
 }
 
 // Food setup
-var foodGeometry = new THREE.SphereGeometry(.5, 10, 10);
-var foodMaterial = new THREE.MeshLambertMaterial({color: 0xff0000});
+var foodGeometry = new THREE.TorusGeometry(0.3, 0.15, 16, 100);
+var foodMaterial = new THREE.MeshLambertMaterial({color: 0xfa744f});
 var food = new THREE.Mesh(foodGeometry, foodMaterial);
 food.position.set(5.5, 0.5, 5.5);
 scene.add(food);
